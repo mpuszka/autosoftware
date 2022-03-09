@@ -7,8 +7,7 @@ trait RequestTrait
   public function makeRequest(object $requestService, string $city, string $country): object
   {
     $requestService->makeRequest($this->prepareQuery($city, $country));
-    $content = json_decode($requestService->getResponseContent());
-    $this->setResponse($content);
+    $this->setResponse(json_decode($requestService->getResponseContent()));
 
     return $this->response;
   }

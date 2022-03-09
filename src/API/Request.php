@@ -28,8 +28,7 @@ class Request
   public function getRequestMessage(): ?string
   {
     if (200 !== $this->getResponseStatusCode()) {
-      $content = $this->getResponseContent();
-      $jsonEncodeContent = json_decode($content);
+      $jsonEncodeContent = json_decode($this->getResponseContent());
 
       return ($jsonEncodeContent) ? $jsonEncodeContent->message : 'Something goes wrong';
     }

@@ -5,18 +5,11 @@ namespace App\Integrations\OpenWeather;
 use App\Interfaces\Weather as WeatherInterface;
 use App\Traits\Weather\RequestTrait;
 
-/**
- * Open weather service
- */
 class OpenWeather implements WeatherInterface
 {
   use RequestTrait;
 
   private $response;
-
-  private const API_KEY = '3d187365a47abb8c797eb64fb29f2beb';
-
-  private const API_URL = 'http://api.openweathermap.org/data/2.5/weather';
 
   public function getLocationName(): string
   {
@@ -25,16 +18,14 @@ class OpenWeather implements WeatherInterface
 
   public function getTemp(): float
   {
-    $temp = $this->getMain()->temp - 272.15;
-
-    return (float) number_format($temp, 1);
+    return (float) number_format(($this->getMain()->temp - 272.15), 1);
   }
 
   public function prepareQuery(string $city, string $country): string
   {
-    $query = self::API_URL;
+    $query = $_ENV['OPENWEATHER_API_URL'];
     $query .= '?q=' . $city . ',' . $country;
-    $query .= '&appid=' . self::API_KEY;
+    $query .= '&appid=' . $_ENV['OPENWEATHER_API_KEY'];
 
     return $query;
   }
