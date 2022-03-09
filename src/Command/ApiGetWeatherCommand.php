@@ -7,25 +7,27 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use App\Service\Weather;
+use App\API\Request;
 
 class ApiGetWeatherCommand extends Command
 {
-  private $params = '';
+  private $request;
 
   protected static $defaultName = 'api:get-weather';
 
   protected static $defaultDescription = 'Get weather data from the provided service provider.';
 
-  public function __construct(ContainerBagInterface $params)
+  public function __construct(Request $request)
   {
-    $this->params = $params;
+    $this->request = $request;
     parent::__construct();
   }
 
   protected function configure(): void
   {
+    $this->addArgument('city', InputArgument::REQUIRED, 'Argument description');
+    $this->addArgument('country', InputArgument::REQUIRED, 'Argument description');
     $this->addArgument('provider', InputArgument::OPTIONAL, 'Argument description');
   }
 
@@ -33,9 +35,12 @@ class ApiGetWeatherCommand extends Command
   {
     $io = new SymfonyStyle($input, $output);
 
-    $arg1 = $input->getArgument('provider');
+    $arg1 = $input->getArgument('city');
+    $arg2 = $input->getArgument('country');
 
-    $weather = new Weather($input->getArgument('provider'));
+    $weatherProvider = Weather::getProvider($input->getArgument('provider') ?: 'openweather');
+    $weatherProvider->makeRequest($this->request, $arg1, $arg2);
+    var_dump($weatherProvider->getTemp());
 
     if ($arg1) {
       $io->note(sprintf('You passed an argument: %s', $arg1));
