@@ -2,19 +2,20 @@
 
 namespace App\Service;
 
-use ReflectionClass;
+use App\Integrations\OpenWeather\OpenWeather;
+use App\Interfaces\Weather as WeatherInterface;
 
 class Weather
 {
-  private $provider;
-
-  public function __construct(?string $provider)
+  public static function getProvider(string $provider): WeatherInterface
   {
-    $this->provider = new ReflectionClass((class_exists('App\Service\Weather\\' . $provider)) ? 'App\Service\Weather\\' . $provider : 'App\Service\Weather\OpenWeather');
-  }
+    switch ($provider) {
+      case 'openweather':
+      default:
+        $provider = new OpenWeather();
+          break;
+    }
 
-  public function getProvider(): object
-  {
-    return $this->provider;
+    return $provider;
   }
 }
