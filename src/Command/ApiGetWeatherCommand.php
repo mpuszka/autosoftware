@@ -9,18 +9,23 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Weather as WeatherEntity;
 
 class ApiGetWeatherCommand extends Command
 {
   private $request;
 
+  private $doctrine;
+
   protected static $defaultName = 'api:get-weather';
 
   protected static $defaultDescription = 'Get weather data from the provided service provider.';
 
-  public function __construct(Request $request)
+  public function __construct(Request $request, ManagerRegistry $doctrine)
   {
     $this->request = $request;
+    $this->doctrine = $doctrine;
     parent::__construct();
   }
 
@@ -40,6 +45,19 @@ class ApiGetWeatherCommand extends Command
 
     $weatherProvider = Weather::getProvider($input->getArgument('provider') ?: 'openweather');
     $weatherProvider->makeRequest($this->request, $arg1, $arg2);
+    $entityManager = $this->doctrine->getManager();
+
+    $weatherEntity = new WeatherEntity();
+    $weatherEntity->setLat($weatherProvider->getLat());
+    $weatherEntity->setLon($weatherProvider->getLon());
+    $weatherEntity->setTemp($weatherProvider->getTemp());
+    $weatherEntity->setPressure($weatherProvider->getPressure());
+    $weatherEntity->setWind($weatherProvider->getWindSpeed());
+    $weatherEntity->setCountry($weatherProvider->getCountry());
+    $weatherEntity->setCity($weatherProvider->getCity());
+
+    $entityManager->persist($weatherEntity);
+    $entityManager->flush();
 
     if ($arg1) {
       $io->note(sprintf('You passed an argument: %s', $arg1));
