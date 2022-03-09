@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use ReflectionClass;
+use App\Interfaces\Weather as WeatherInterface;
 
 class Weather
 {
@@ -13,8 +14,8 @@ class Weather
     $this->provider = new ReflectionClass((class_exists('App\Service\Weather\\' . $provider)) ? 'App\Service\Weather\\' . $provider : 'App\Service\Weather\OpenWeather');
   }
 
-  public function getProvider(): object
+  public function getProvider(): WeatherInterface
   {
-    return $this->provider;
+    return $this->provider->newInstance();
   }
 }

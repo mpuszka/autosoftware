@@ -2,7 +2,9 @@
 
 namespace App\Service\Weather;
 
-class OpenWeather
+use App\Interfaces\Weather as WeatherInterface;
+
+class OpenWeather implements WeatherInterface
 {
 
 }
