@@ -8,7 +8,17 @@ interface Weather
 
   public function prepareQuery(string $city, string $country);
 
-  public function getLocationName();
+  public function getLat();
+
+  public function getLon();
 
   public function getTemp();
+
+  public function getPressure();
+
+  public function getWindSpeed();
+
+  public function getCountry();
+
+  public function getCity();
 }
