@@ -40,11 +40,11 @@ class ApiGetWeatherCommand extends Command
   {
     $io = new SymfonyStyle($input, $output);
 
-    $arg1 = $input->getArgument('city');
-    $arg2 = $input->getArgument('country');
+    $city = $input->getArgument('city');
+    $country = $input->getArgument('country');
 
     $weatherProvider = Weather::getProvider($input->getArgument('provider') ?: 'openweather');
-    $weatherProvider->makeRequest($this->request, $arg1, $arg2);
+    $weatherProvider->makeRequest($this->request, $city, $country);
     $entityManager = $this->doctrine->getManager();
 
     $weatherEntity = new WeatherEntity();
@@ -59,8 +59,8 @@ class ApiGetWeatherCommand extends Command
     $entityManager->persist($weatherEntity);
     $entityManager->flush();
 
-    if ($arg1) {
-      $io->note(sprintf('You passed an argument: %s', $arg1));
+    if ($city) {
+      $io->note(sprintf('You passed an argument: %s', $city));
     }
 
     $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
