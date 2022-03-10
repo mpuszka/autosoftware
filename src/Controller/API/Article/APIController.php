@@ -19,4 +19,16 @@ class APIController extends AbstractFOSRestController
   {
     return View::create($doctrine->getManager()->getRepository(Article::class)->findAll(), Response::HTTP_OK);
   }
+
+  /**
+   * @Rest\Get("/api/article/{id}")
+   */
+  public function article(ManagerRegistry $doctrine, int $id): View
+  {
+    if (! empty($data = $doctrine->getManager()->getRepository(Article::class)->find($id))) {
+      return View::create($data, Response::HTTP_OK);
+    }
+
+    return View::create([], Response::HTTP_FOUND);
+  }
 }
