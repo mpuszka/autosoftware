@@ -1,5 +1,11 @@
 <template>
     <div>
+      <div class="d-flex justify-content-center" v-if="loader">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+
       <div v-if="!error">
         <h1>{{ title }}</h1>
         <p>{{ body }}</p>
@@ -22,6 +28,7 @@ export default {
       body: '',
       error: false,
       id: this.$parent.id,
+      loader: true,
     };
   },
   mounted() {
@@ -29,10 +36,12 @@ export default {
       if (response) {
         this.title = response.data.title;
         this.body = response.data.body;
+        this.loader = false;
       }
     })
     .catch((e) => {
       this.error = true;
+      this.loader = false;
       console.log(e);
     });
   },
