@@ -43,13 +43,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   private $name;
 
   /**
-   * @ORM\OneToMany(targetEntity=Blog::class, mappedBy="author", orphanRemoval=true)
+   * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author", orphanRemoval=true)
    */
-  private $blogs;
+  private $Articles;
 
   public function __construct()
   {
-      $this->blogs = new ArrayCollection();
+      $this->Articles = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -154,29 +154,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   }
 
   /**
-   * @return Collection<int, Blog>
+   * @return Collection<int, Article>
    */
-  public function getBlogs(): Collection
+  public function getArticles(): Collection
   {
-      return $this->blogs;
+      return $this->Articles;
   }
 
-  public function addBlog(Blog $blog): self
+  public function addArticle(Article $Article): self
   {
-      if (!$this->blogs->contains($blog)) {
-          $this->blogs[] = $blog;
-          $blog->setAuthor($this);
+      if (!$this->Articles->contains($Article)) {
+          $this->Articles[] = $Article;
+          $Article->setAuthor($this);
       }
 
       return $this;
   }
 
-  public function removeBlog(Blog $blog): self
+  public function removeArticle(Article $Article): self
   {
-      if ($this->blogs->removeElement($blog)) {
+      if ($this->Articles->removeElement($Article)) {
           // set the owning side to null (unless already changed)
-          if ($blog->getAuthor() === $this) {
-              $blog->setAuthor(null);
+          if ($Article->getAuthor() === $this) {
+              $Article->setAuthor(null);
           }
       }
 

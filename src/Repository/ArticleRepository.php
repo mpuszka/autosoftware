@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Blog;
+use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Blog|null find($id, $lockMode = null, $lockVersion = null)
- * @method Blog|null findOneBy(array $criteria, array $orderBy = null)
- * @method Blog[]    findAll()
- * @method Blog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Article|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Article|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Article[]    findAll()
+ * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BlogRepository extends ServiceEntityRepository
+class ArticleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Blog::class);
+        parent::__construct($registry, Article::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Blog $entity, bool $flush = true): void
+    public function add(Article $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class BlogRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Blog $entity, bool $flush = true): void
+    public function remove(Article $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class BlogRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Blog[] Returns an array of Blog objects
+    //  * @return Article[] Returns an array of Article objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class BlogRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Blog
+    public function findOneBySomeField($value): ?Article
     {
         return $this->createQueryBuilder('b')
             ->andWhere('b.exampleField = :val')

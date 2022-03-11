@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\BlogRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=BlogRepository::class)
+ * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
-class Blog
+class Article
 {
     /**
      * @ORM\Id
@@ -28,7 +28,7 @@ class Blog
     private $body;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blogs")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="Articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;

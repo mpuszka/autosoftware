@@ -8,10 +8,6 @@
     {% block stylesheets %}
       {{ encore_entry_link_tags('app') }}
     {% endblock %}
-
-    {% block javascripts %}
-      {{ encore_entry_script_tags('app') }}
-    {% endblock %}
   </head>
   <body>
     <div class="container">
@@ -19,12 +15,18 @@
         {% block nav %}
           <nav class="nav">
             <a class="nav-link" href="/">Home</a>
-            <a class="nav-link" href="/blog">Blog</a>
-            <a class="nav-link" href="/contact">Contact</a>
+            <a class="nav-link" href="/article">Blog</a>
           </nav>
         {% endblock %}
+
         {% block body %}{% endblock %}
       </div>
     </div>
+
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+
+    {% block addition_scripts %}{% endblock %}
   </body>
 </html>
