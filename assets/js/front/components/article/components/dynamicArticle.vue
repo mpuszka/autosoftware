@@ -7,8 +7,9 @@
       </div>
 
       <div v-if="!error">
-        <h1>{{ title }}</h1>
-        <p>{{ body }}</p>
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.body }}</p>
+        <div class="float-end">Author: {{ author.name }}</div>
       </div>
 
       <div v-if="error">
@@ -24,8 +25,8 @@ export default {
   name: "dynamicArticle",
   data() {
     return {
-      title: '',
-      body: '',
+      article: '',
+      author: '',
       error: false,
       id: this.$parent.id,
       loader: true,
@@ -34,8 +35,8 @@ export default {
   mounted() {
     axios.get('/api/article/' + this.id).then((response) => {
       if (response) {
-        this.title = response.data.title;
-        this.body = response.data.body;
+        this.article = response.data;
+        this.author = this.article.author;
         this.loader = false;
       }
     })

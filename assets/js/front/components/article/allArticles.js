@@ -3,8 +3,8 @@ import allArticles from "./components/allArticles";
 
 ((el) => {
   new Vue({
-      el,
-      render: h => h(allArticles),
-      data: () => Object.assign({}, el.dataset) ,
+    el,
+    render: h => h(allArticles),
+    data: () => Object.assign({}, el.dataset),
   });
 })(document.getElementById('articles'));
