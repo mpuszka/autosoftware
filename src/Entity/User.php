@@ -49,108 +49,108 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
   public function __construct()
   {
-      $this->Articles = new ArrayCollection();
+    $this->Articles = new ArrayCollection();
   }
 
   public function getId(): ?int
   {
-      return $this->id;
+    return $this->id;
   }
 
   public function getEmail(): ?string
   {
-      return $this->email;
+    return $this->email;
   }
 
   public function setEmail(string $email): self
   {
-      $this->email = $email;
+    $this->email = $email;
 
-      return $this;
+    return $this;
   }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
+  /**
+   * A visual identifier that represents this user.
+   *
+   * @see UserInterface
+   */
   public function getUserIdentifier(): string
   {
-      return (string) $this->email;
+    return (string) $this->email;
   }
 
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
+  /**
+   * @deprecated since Symfony 5.3, use getUserIdentifier instead
+   */
   public function getUsername(): string
   {
-      return (string) $this->email;
+    return (string) $this->email;
   }
 
-    /**
-     * @see UserInterface
-     */
+  /**
+   * @see UserInterface
+   */
   public function getRoles(): array
   {
-      $roles = $this->roles;
-      // guarantee every user at least has ROLE_USER
-      $roles[] = 'ROLE_USER';
+    $roles = $this->roles;
+    // guarantee every user at least has ROLE_USER
+    $roles[] = 'ROLE_USER';
 
-      return array_unique($roles);
+    return array_unique($roles);
   }
 
   public function setRoles(array $roles): self
   {
-      $this->roles = $roles;
+    $this->roles = $roles;
 
-      return $this;
+    return $this;
   }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
+  /**
+   * @see PasswordAuthenticatedUserInterface
+   */
   public function getPassword(): string
   {
-      return $this->password;
+    return $this->password;
   }
 
   public function setPassword(string $password): self
   {
-      $this->password = $password;
+    $this->password = $password;
 
-      return $this;
+    return $this;
   }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
+  /**
+   * Returning a salt is only needed, if you are not using a modern
+   * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+   *
+   * @see UserInterface
+   */
   public function getSalt(): ?string
   {
-      return null;
+    return null;
   }
 
-    /**
-     * @see UserInterface
-     */
+  /**
+   * @see UserInterface
+   */
   public function eraseCredentials()
   {
-      // If you store any temporary, sensitive data on the user, clear it here
-      // $this->plainPassword = null;
+    // If you store any temporary, sensitive data on the user, clear it here
+    // $this->plainPassword = null;
   }
 
   public function getName(): ?string
   {
-      return $this->name;
+    return $this->name;
   }
 
   public function setName(string $name): self
   {
-      $this->name = $name;
+    $this->name = $name;
 
-      return $this;
+    return $this;
   }
 
   /**
@@ -158,28 +158,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   public function getArticles(): Collection
   {
-      return $this->Articles;
+    return $this->Articles;
   }
 
   public function addArticle(Article $Article): self
   {
-      if (!$this->Articles->contains($Article)) {
-          $this->Articles[] = $Article;
-          $Article->setAuthor($this);
-      }
+    if (! $this->Articles->contains($Article)) {
+      $this->Articles[] = $Article;
+      $Article->setAuthor($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeArticle(Article $Article): self
   {
-      if ($this->Articles->removeElement($Article)) {
-          // set the owning side to null (unless already changed)
-          if ($Article->getAuthor() === $this) {
-              $Article->setAuthor(null);
-          }
+    if ($this->Articles->removeElement($Article)) {
+      // set the owning side to null (unless already changed)
+      if ($Article->getAuthor() === $this) {
+        $Article->setAuthor(null);
       }
+    }
 
-      return $this;
+    return $this;
   }
 }
