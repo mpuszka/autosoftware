@@ -10,7 +10,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
-class APIController extends AbstractFOSRestController
+class ArticleController extends AbstractFOSRestController
 {
   /**
    * @Rest\Get("/api/article")
