@@ -5,20 +5,15 @@ namespace App\Controller\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Article;
 
 class ArticleController extends AbstractController
 {
   /**
   * @Route("/article", name="app_article")
   */
-  public function index(ManagerRegistry $doctrine): Response
+  public function index(): Response
   {
-    return $this->render('article/index.html.twig', [
-      'articles' => $doctrine->getManager()->getRepository(Article::class)->findAll(),
-      'controller_name' => 'ArticleController',
-    ]);
+    return $this->render('article/index.html.twig');
   }
 
   /**
@@ -26,6 +21,6 @@ class ArticleController extends AbstractController
   */
   public function article(int $id): Response
   {
-    return $this->render('article/article.html.twig');
+    return $this->render('article/article.html.twig', ['id' => $id]);
   }
 }

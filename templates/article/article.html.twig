@@ -2,15 +2,19 @@
 
 {% block body %}
   <div class="col-md-8">
-    <h1>Article title</h1>
-    <p>Body</p>
+    <div id="article" data-id={{ id }}>
+      <dynamicArticle/>
+    </div>
   </div>
+
   <div class="col-md-4">
-    <h2>Latest articles</h2>
-    <ul>
-      <li>one</li>
-      <li>one</li>
-      <li>one</li>
-    </ul>
+    <div id="articles" data-title="All articles" data-skip={{ id }}>
+     <articles />
+    </div>
   </div>
+{% endblock %}
+
+{% block addition_scripts %}
+  {{ encore_entry_script_tags('article') }}
+  {{ encore_entry_script_tags('articles') }}
 {% endblock %}
