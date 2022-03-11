@@ -43,8 +43,20 @@ class ApiGetWeatherCommand extends Command
     $city = $input->getArgument('city');
     $country = $input->getArgument('country');
 
+    $io->note(sprintf('You passed a city: %s', $city));
+    $io->note(sprintf('You passed a country: %s', $country));
+
     $weatherProvider = Weather::getProvider($input->getArgument('provider') ?: 'openweather');
+
+    $io->success(sprintf('We are getting the weather from: %s', $input->getArgument('provider') ?: 'openweather'));
+
     $weatherProvider->makeRequest($this->request, $city, $country);
+
+    if (200 !== $this->request->getResponseStatusCode()) {
+      $io->error(sprintf('Oops - something goes wrong: %s', $this->request->getRequestMessage()));
+      return Command::FAILURE;
+    }
+
     $entityManager = $this->doctrine->getManager();
 
     $weatherEntity = new WeatherEntity();
@@ -59,11 +71,7 @@ class ApiGetWeatherCommand extends Command
     $entityManager->persist($weatherEntity);
     $entityManager->flush();
 
-    if ($city) {
-      $io->note(sprintf('You passed an argument: %s', $city));
-    }
-
-    $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+    $io->success(sprintf('We save the data form city %s and country %s', $city, $country));
 
     return Command::SUCCESS;
   }
