@@ -7,9 +7,9 @@
       </div>
 
       <div v-if="!error">
-        <h1>{{ article.title }}</h1>
-        <p>{{ article.body }}</p>
-        <div class="float-end">Author: {{ author.name }}</div>
+        <h1>{{ article.getTitle() }}</h1>
+        <p>{{ article.getBody() }}</p>
+        <div class="float-end">Author: {{ author.getName() }}</div>
       </div>
 
       <div v-if="error">
@@ -20,13 +20,15 @@
 
 <script>
 import axios from "axios";
+import Article from "../../../models/Article";
+import Author from "../../../models/Author";
 
 export default {
   name: "dynamicArticle",
   data() {
     return {
-      article: '',
-      author: '',
+      article: new Article,
+      author: new Author,
       error: false,
       id: this.$parent.id,
       loader: true,
@@ -35,8 +37,8 @@ export default {
   mounted() {
     axios.get('/api/article/' + this.id).then((response) => {
       if (response) {
-        this.article = response.data;
-        this.author = this.article.author;
+        this.article = this.article.setArticle(response.data);
+        this.author = this.author.setAuthor(this.article.getAuthor());
         this.loader = false;
       }
     })
